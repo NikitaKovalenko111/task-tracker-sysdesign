@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	task_dto "taskflow/task-service/internal/dto/task"
 	"taskflow/task-service/internal/models"
-	"taskflow/task-service/pkg/types"
+	"taskflow/task-service/internal/types"
 )
 
 type TaskRepository struct {
@@ -97,4 +97,24 @@ func (r *TaskRepository) UpdateTask(newTask *task_dto.UpdateTaskRequest) (*task_
 	return &response, nil
 }
 
-func (r *TaskRepository) DeleteTask(taskId types.IdType)
+func (r *TaskRepository) DeleteTask(taskId types.IdType) (*models.Task, error) {
+	var query string
+
+	query = `
+		DELETE FROM tasks
+		WHERE task_id = $1
+		RETURNING (task_id, task_name, task_desc, task_status, task_deadline, task_project_id)
+	`
+
+	var task models.Task
+
+	err := r.db.QueryRow(
+		query, taskId,
+	).Scan(&task.Id, &task.Name, &task.Description, &task.Status, &task.Deadline, &task.ProjectId)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &task, nil
+}

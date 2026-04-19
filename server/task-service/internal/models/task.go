@@ -1,7 +1,7 @@
 package models
 
 import (
-	"taskflow/task-service/pkg/types"
+	"taskflow/task-service/internal/types"
 	"time"
 )
 

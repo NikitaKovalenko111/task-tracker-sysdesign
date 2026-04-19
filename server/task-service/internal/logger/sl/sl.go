@@ -4,7 +4,7 @@ import (
 	"log/slog"
 	"os"
 	"taskflow/task-service/internal/config"
-	"taskflow/task-service/pkg/types"
+	"taskflow/task-service/internal/types"
 
 	"github.com/lmittmann/tint"
 )

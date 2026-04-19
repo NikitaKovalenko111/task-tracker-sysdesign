@@ -2,7 +2,7 @@ package task_dto
 
 import (
 	"taskflow/task-service/internal/models"
-	"taskflow/task-service/pkg/types"
+	"taskflow/task-service/internal/types"
 	"time"
 )
 
