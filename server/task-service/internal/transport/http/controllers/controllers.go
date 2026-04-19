@@ -3,6 +3,8 @@ package controllers
 import (
 	"taskflow/task-service/internal/services"
 	task_controller "taskflow/task-service/internal/transport/http/controllers/task"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 type Controllers struct {
@@ -15,6 +17,7 @@ func Init(services *services.Services) *Controllers {
 	}
 }
 
-func (c *Controllers) Start() {
-	c.TaskController.Start("tasks")
+func (c *Controllers) Start(app *fiber.App) {
+	taskRouter := app.Group("tasks")
+	c.TaskController.RegisterRoutes(taskRouter)
 }

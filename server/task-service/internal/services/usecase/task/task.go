@@ -1,6 +1,7 @@
 package task_service
 
 import (
+	"log/slog"
 	task_dto "taskflow/task-service/internal/dto/task"
 	"taskflow/task-service/internal/models"
 	task_repository "taskflow/task-service/internal/storage/repositories/task"
@@ -9,11 +10,13 @@ import (
 
 type TaskService struct {
 	taskRepo *task_repository.TaskRepository
+	logger   *slog.Logger
 }
 
-func Init(taskRepo *task_repository.TaskRepository) *TaskService {
+func Init(taskRepo *task_repository.TaskRepository, logger *slog.Logger) *TaskService {
 	return &TaskService{
 		taskRepo: taskRepo,
+		logger:   logger,
 	}
 }
 

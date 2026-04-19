@@ -2,6 +2,7 @@ package task_repository
 
 import (
 	"database/sql"
+	"log/slog"
 	task_dto "taskflow/task-service/internal/dto/task"
 	"taskflow/task-service/internal/models"
 	"taskflow/task-service/internal/types"
@@ -11,7 +12,7 @@ type TaskRepository struct {
 	db *sql.DB
 }
 
-func Init(db *sql.DB) *TaskRepository {
+func Init(db *sql.DB, logger *slog.Logger) *TaskRepository {
 	return &TaskRepository{
 		db: db,
 	}

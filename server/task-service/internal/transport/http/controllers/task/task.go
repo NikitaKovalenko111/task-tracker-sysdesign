@@ -11,7 +11,6 @@ import (
 
 type TaskController struct {
 	TaskService *task_service.TaskService
-	Router      *fiber.App
 }
 
 func Init(taskService *task_service.TaskService) *TaskController {
@@ -20,13 +19,11 @@ func Init(taskService *task_service.TaskService) *TaskController {
 	}
 }
 
-func (c *TaskController) Start(route string) {
-	router := c.Router.Group("/tasks")
-
+func (c *TaskController) RegisterRoutes(router fiber.Router) {
 	router.Get("/", c.GetTasks)
 	router.Post("/", c.CreateTask)
-	router.Put("/")
-	router.Delete("/:id")
+	router.Put("/", c.UpdateTask)
+	router.Delete("/:id", c.DeleteTask)
 }
 
 func (ctr *TaskController) CreateTask(c *fiber.Ctx) error {
