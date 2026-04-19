@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap');
+
+:root {
+  --font-main: 'Manrope', 'Segoe UI', sans-serif;
+  --font-display: 'Fraunces', 'Times New Roman', serif;
+
+  --color-bg: #f4f6f9;
+  --color-bg-soft: #eef2f7;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f8fafc;
+  --color-border: #dce4ee;
+  --color-text: #243142;
+  --color-text-muted: #627086;
+  --color-primary: #5f7ea3;
+  --color-primary-strong: #4d6f95;
+  --color-primary-soft: #dce7f4;
+  --color-accent: #78b3a2;
+  --color-danger: #c77474;
+
+  --shadow-soft: 0 12px 28px rgba(29, 46, 72, 0.08);
+  --shadow-card: 0 8px 20px rgba(35, 53, 84, 0.06);
+
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+
+  --duration-fast: 0.2s;
+  --duration-normal: 0.35s;
+  --duration-slow: 0.5s;
+  --ease-standard: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  --container-width: 1200px;
+  --header-height: 74px;
+}
