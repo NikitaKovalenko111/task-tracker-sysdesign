@@ -1,11 +1,14 @@
 package task_controller
 
 import (
+	"errors"
 	"strconv"
+	domain_errors "taskflow/task-service/internal/domain/errors"
 	task_dto "taskflow/task-service/internal/dto/task"
 	task_service "taskflow/task-service/internal/services/usecase/task"
 	"taskflow/task-service/internal/types"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -31,6 +34,12 @@ func (ctr *TaskController) CreateTask(c *fiber.Ctx) error {
 
 	if err := c.BodyParser(&body); err != nil {
 		return fiber.NewError(fiber.ErrBadRequest.Code, "Couldn't parse body")
+	}
+
+	validate := validator.New()
+
+	if err := validate.Struct(body); err != nil {
+		return fiber.NewError(fiber.ErrBadRequest.Code, err.Error())
 	}
 
 	response, err := ctr.TaskService.CreateTask(&body)
@@ -59,9 +68,19 @@ func (ctr *TaskController) UpdateTask(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.ErrBadRequest.Code, "Couldn't parse body")
 	}
 
+	validate := validator.New()
+
+	if err := validate.Struct(body); err != nil {
+		return fiber.NewError(fiber.ErrBadRequest.Code, err.Error())
+	}
+
 	response, err := ctr.TaskService.UpdateTask(&body)
 
 	if err != nil {
+		if errors.Is(err, domain_errors.ErrNoRows) {
+			return fiber.NewError(fiber.ErrNotFound.Code, "The task wasn't found")
+		}
+
 		return fiber.NewError(fiber.ErrInternalServerError.Code, "Some error during updating task...")
 	}
 

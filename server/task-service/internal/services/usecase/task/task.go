@@ -2,8 +2,8 @@ package task_service
 
 import (
 	"log/slog"
+	"taskflow/task-service/internal/domain/models"
 	task_dto "taskflow/task-service/internal/dto/task"
-	"taskflow/task-service/internal/models"
 	task_repository "taskflow/task-service/internal/storage/repositories/task"
 	"taskflow/task-service/internal/types"
 )

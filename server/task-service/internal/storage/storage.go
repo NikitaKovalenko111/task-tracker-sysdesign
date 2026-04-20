@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"taskflow/task-service/internal/config"
 	"taskflow/task-service/internal/storage/repositories"
+
+	_ "github.com/lib/pq"
 )
 
 type Storage struct {

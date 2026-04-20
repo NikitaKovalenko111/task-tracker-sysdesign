@@ -21,15 +21,21 @@ func New() *App {
 
 	logger := sl.Init(config)
 
-	logger.Info("Logger is started...")
+	logger.Info("Logger is started!")
 
 	db := storage.Connect(config)
+
+	logger.Info("Connected to database!")
 
 	defer db.Close()
 
 	repos := repositories.Init(db, logger)
 
+	logger.Info("Inited repositories!")
+
 	services := services.Init(repos, logger)
+
+	logger.Info("Inited services!")
 
 	app := fiber.New(fiber.Config{
 		StrictRouting: false,
@@ -39,7 +45,9 @@ func New() *App {
 
 	app.Get("/swagger/*", fiberSwagger.WrapHandler)
 
-	http := http.Init(app, services, logger)
+	http := http.Init(app, services, logger, config)
+
+	logger.Info("Inited HTTP server!")
 
 	return &App{
 		http: http,

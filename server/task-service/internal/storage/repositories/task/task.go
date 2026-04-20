@@ -2,9 +2,11 @@ package task_repository
 
 import (
 	"database/sql"
+	"errors"
 	"log/slog"
+	domain_errors "taskflow/task-service/internal/domain/errors"
+	"taskflow/task-service/internal/domain/models"
 	task_dto "taskflow/task-service/internal/dto/task"
-	"taskflow/task-service/internal/models"
 	"taskflow/task-service/internal/types"
 )
 
@@ -92,6 +94,10 @@ func (r *TaskRepository) UpdateTask(newTask *task_dto.UpdateTaskRequest) (*task_
 	).Scan(&response.Id, &response.Name, &response.Description, &response.Deadline, &response.Status, &response.ProjectId)
 
 	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, domain_errors.ErrNoRows
+		}
+
 		return nil, err
 	}
 
@@ -114,6 +120,10 @@ func (r *TaskRepository) DeleteTask(taskId types.IdType) (*models.Task, error) {
 	).Scan(&task.Id, &task.Name, &task.Description, &task.Status, &task.Deadline, &task.ProjectId)
 
 	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, domain_errors.ErrNoRows
+		}
+
 		return nil, err
 	}
 

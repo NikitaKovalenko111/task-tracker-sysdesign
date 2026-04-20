@@ -16,20 +16,21 @@ type HTTPServer struct {
 	logger      *slog.Logger
 }
 
-func Init(app *fiber.App, services *services.Services, logger *slog.Logger) *HTTPServer {
+func Init(app *fiber.App, services *services.Services, logger *slog.Logger, config *config.Config) *HTTPServer {
 	return &HTTPServer{
 		app:         app,
 		controllers: controllers.Init(services),
 		logger:      logger,
+		config:      config,
 	}
 }
 
 func (http *HTTPServer) Start() {
 	http.controllers.Start(http.app)
 
-	http.app.Listen(http.config.Address)
+	go http.app.Listen(http.config.Address)
 
-	http.logger.Info("Http server has started...")
+	http.logger.Info("Http server has started!")
 }
 
 func (http *HTTPServer) Stop() {
@@ -38,6 +39,6 @@ func (http *HTTPServer) Stop() {
 	err := http.app.Shutdown()
 
 	if err != nil {
-
+		panic("Couldn't stop the server")
 	}
 }
